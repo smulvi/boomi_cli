@@ -126,35 +126,35 @@ function callAPI {
    curl -s -X POST -u $authToken -H "${h1}" -H "${h2}" $URL -d@"${WORKSPACE}"/tmp.json > "${WORKSPACE}"/out.json
    export ERROR=$(jq  -r . "${WORKSPACE}"/out.json 2>&1 > /dev/null)
    if [[ ! -z $ERROR ]]; then 
-	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
+	   export ERROR_MESSAGE='cat "${WORKSPACE}"/out.json' 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
 	   return 251
    fi
-   export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
+   export ERROR='jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l'
    if [[ $ERROR -gt 0 ]]; then 
-	   export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
+	   export ERROR_MESSAGE='jq -r .message "${WORKSPACE}"/out.json' 
 	   echoee "$ERROR_MESSAGE"
 	   return 251
    fi
  
    if [ ! -z "$exportVariable" ]
    then
-  	 export ${exportVariable}=`jq -r .$id "${WORKSPACE}"/out.json`
+  	 export ${exportVariable}='jq -r .$id "${WORKSPACE}"/out.json'
 		 echovv "export ${exportVariable}=${!exportVariable}."
    fi
   else
    curl -s -X POST -u $authToken -H "${h1}" -H "${h2}" $URL -d${queryToken} > "${WORKSPACE}"/out.json
    export ERROR=$(jq  -r . "${WORKSPACE}"/out.json 2>&1 > /dev/null)
    if [[ ! -z $ERROR ]]; then 
-	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
+	   export ERROR_MESSAGE='cat "${WORKSPACE}"/out.json' 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
 	   return 251
    fi
-   export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
+   export ERROR='jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l'
    if [[ $ERROR -gt 0 ]]; then 
-	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
+	  export ERROR_MESSAGE='jq -r .message "${WORKSPACE}"/out.json' 
 		echoee "$ERROR_MESSAGE"
 	 return 251
    fi
@@ -172,14 +172,14 @@ function getAPI {
   curl -s -X GET -u $authToken -H "${h1}" -H "${h2}" "$URL" > "${WORKSPACE}"/out.json
   export ERROR=$(jq  -r . "${WORKSPACE}"/out.json 2>&1 > /dev/null)
    if [[ ! -z $ERROR ]]; then 
-	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
+	   export ERROR_MESSAGE='cat "${WORKSPACE}"/out.json' 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
 	   return 251
    fi
-  export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
+  export ERROR='jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l'
   if [[ $ERROR -gt 0 ]]; then 
-	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
+	  export ERROR_MESSAGE='jq -r .message "${WORKSPACE}"/out.json' 
 		echoee "$ERROR_MESSAGE"
 	 return 251
   fi
@@ -207,11 +207,11 @@ function extract {
 }
 
 function extractMap {
- mapfile -t ${2} < (jq -r .result[].${1} "${WORKSPACE}/out.json")
+ mapfile -t ${2} < <(jq -r .result[].${1} "${WORKSPACE}/out.json")
 }
 
 function extractComponentMap {
- mapfile -t ${2} < (jq -r .componentInfo[].${1} "${WORKSPACE}/out.json")
+ mapfile -t ${2} < <(jq -r .componentInfo[].${1} "${WORKSPACE}/out.json")
 }
 
 #Echo from other scripts
