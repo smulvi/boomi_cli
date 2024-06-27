@@ -206,7 +206,13 @@ function extract {
 		echovv "export ${2}=${!2}."
 }
 
+function extractMap {
+ mapfile -t ${2} < <(jq -r .result[].${1} "${WORKSPACE}/out.json")
+}
 
+function extractComponentMap {
+ mapfile -t ${2} < <(jq -r .componentInfo[].${1} "${WORKSPACE}/out.json")
+}
 
 #Echo from other scripts
 function echov {
