@@ -202,7 +202,7 @@ function getXMLAPI {
 }
 
 function extract {
-  	export ${2}="`jq -r .${1} "${WORKSPACE}"/out.json`"
+  	export ${2}="'jq -r .${1} "${WORKSPACE}"/out.json'"
 		echovv "export ${2}=${!2}."
 }
 
