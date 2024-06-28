@@ -207,7 +207,7 @@ function extract {
 }
 
 function extractMap {
- mapfile -t ${2} < <("`jq -r .result[].${1} "${WORKSPACE}"/out.json`")
+ mapfile -t ${2} < <(jq -r .result[].${1} "${WORKSPACE}/out.json")
 }
 
 function extractComponentMap {
